@@ -1,0 +1,9 @@
+{
+  "name": "AI Visualizers",
+  "author": "Written by AI!",
+  "version": "4.0.0",
+  "targetAppName": "MusicPlayer",
+  "targetAppVersion": "4.0",
+  "shortDescription": "A collection of visualizers for the MusicPlayer application, written by AI.",
+  "longDescription": "An experiment for YouTube - can we get AI to write fullscreen visualizers for this application? Yes we can!"
+}
