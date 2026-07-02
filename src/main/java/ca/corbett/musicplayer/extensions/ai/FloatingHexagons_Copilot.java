@@ -28,7 +28,7 @@ import java.util.Random;
  */
 public class FloatingHexagons_Copilot extends VisualizationManager.Visualizer {
 
-    public static final String NAME = "Floating hexagons";
+    public static final String NAME = "Floating hexagons (copilot)";
     private static final String colorPropName = "Visualizers.Floating Hexagons.hexagonColor";
     private static final String countPropName = "Visualizers.Floating Hexagons.count";
     private static final String minSizePropName = "Visualizers.Floating Hexagons.minSize";
