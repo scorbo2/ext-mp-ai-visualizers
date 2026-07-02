@@ -14,12 +14,16 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.RadialGradientPaint;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
- * Draws semi-transparent hexagons that drift gently across the screen at varying sizes.
+ * Draws semi-transparent hexagons that drift gently across the screen at varying sizes
+ * with an animated, visually impressive dynamic background featuring pulsing gradients
+ * and glowing effects.
  * This was written by GitHub Copilot / Claude Sonnet 4.6.
  */
 public class FloatingHexagons_Copilot extends VisualizationManager.Visualizer {
@@ -43,6 +47,8 @@ public class FloatingHexagons_Copilot extends VisualizationManager.Visualizer {
     private final List<FloatingHexagon> hexagons = new ArrayList<>();
     private int width;
     private int height;
+    private float backgroundPhase = 0f;
+    private final List<BackgroundGlow> backgroundGlows = new ArrayList<>();
 
     public FloatingHexagons_Copilot() {
         super(NAME);
@@ -83,7 +89,7 @@ public class FloatingHexagons_Copilot extends VisualizationManager.Visualizer {
             .getValue();
 
         count = clamp(count, 1, 200);
-        if (minSize > maxSize) { // handle weirdness
+        if (minSize > maxSize) {
             int temp = minSize;
             minSize = maxSize;
             maxSize = temp;
@@ -91,16 +97,24 @@ public class FloatingHexagons_Copilot extends VisualizationManager.Visualizer {
         minSize = Math.max(4, minSize);
         maxSize = Math.max(minSize, maxSize);
         hexagons.clear();
+        backgroundGlows.clear();
 
         for (int i = 0; i < count; i++) {
             hexagons.add(createHexagon());
+        }
+
+        for (int i = 0; i < 3; i++) {
+            backgroundGlows.add(new BackgroundGlow(
+                RANDOM.nextFloat() * width,
+                RANDOM.nextFloat() * height,
+                0.003f + RANDOM.nextFloat() * 0.007f
+            ));
         }
     }
 
     @Override
     public void renderFrame(Graphics2D graphics, VisualizationTrackInfo trackInfo) {
-        graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0, width, height);
+        drawAnimatedBackground(graphics);
         graphics.setComposite(AlphaComposite.SrcOver);
 
         for (FloatingHexagon hexagon : hexagons) {
@@ -126,11 +140,100 @@ public class FloatingHexagons_Copilot extends VisualizationManager.Visualizer {
             hexagon.y += (float)Math.cos(hexagon.phase * 0.7f) * (hexagon.wobble * 0.55f);
             wrap(hexagon);
         }
+
+        backgroundPhase += 0.008f;
+        if (backgroundPhase > 6.28f) {
+            backgroundPhase -= 6.28f;
+        }
+
+        for (BackgroundGlow glow : backgroundGlows) {
+            glow.update();
+        }
+    }
+
+    private void drawAnimatedBackground(Graphics2D graphics) {
+        graphics.setColor(Color.BLACK);
+        graphics.fillRect(0, 0, width, height);
+
+        drawGradientLayers(graphics);
+        drawBackgroundGlows(graphics);
+    }
+
+    private void drawGradientLayers(Graphics2D graphics) {
+        float pulsePrimary = (float)Math.sin(backgroundPhase) * 0.5f + 0.5f;
+        float pulseSec = (float)Math.sin(backgroundPhase * 0.7f) * 0.5f + 0.5f;
+
+        int centerX = width / 2;
+        int centerY = height / 2;
+        float maxDist = (float)Math.sqrt(centerX * centerX + centerY * centerY);
+
+        Point2D.Float center = new Point2D.Float(centerX, centerY);
+        float radiusBase = maxDist * (0.3f + pulsePrimary * 0.2f);
+
+        float[] fractions = {0f, 0.4f, 1f};
+        Color[] colors = {
+            new Color(
+                clamp((int)(50 + pulsePrimary * 80), 0, 255),
+                clamp((int)(100 + pulsePrimary * 100), 0, 255),
+                clamp((int)(150 + pulseSec * 80), 0, 255),
+                30
+            ),
+            new Color(
+                clamp((int)(20 + pulseSec * 40), 0, 255),
+                clamp((int)(50 + pulsePrimary * 60), 0, 255),
+                clamp((int)(100 + pulseSec * 100), 0, 255),
+                15
+            ),
+            new Color(0, 0, 0, 0)
+        };
+
+        RadialGradientPaint gradientPaint = new RadialGradientPaint(center, radiusBase, fractions, colors);
+        graphics.setPaint(gradientPaint);
+        graphics.fillRect(0, 0, width, height);
+
+        float pulse2 = (float)Math.sin(backgroundPhase * 1.5f) * 0.5f + 0.5f;
+        float radiusSecondary = maxDist * (0.15f + pulse2 * 0.1f);
+
+        Color[] colors2 = {
+            new Color(
+                clamp((int)(80 + pulse2 * 100), 0, 255),
+                clamp((int)(150 + pulseSec * 50), 0, 255),
+                clamp((int)(200 + pulsePrimary * 50), 0, 255),
+                20
+            ),
+            new Color(100, 180, 255, 0)
+        };
+
+        float[] fractions2 = {0f, 1f};
+        RadialGradientPaint gradientPaint2 = new RadialGradientPaint(center, radiusSecondary, fractions2, colors2);
+        graphics.setPaint(gradientPaint2);
+        graphics.fillRect(0, 0, width, height);
+    }
+
+    private void drawBackgroundGlows(Graphics2D graphics) {
+        for (BackgroundGlow glow : backgroundGlows) {
+            float intensity = (float)Math.sin(glow.phase) * 0.5f + 0.5f;
+            graphics.setColor(new Color(
+                clamp((int)(100 * intensity), 0, 255),
+                clamp((int)(150 * intensity), 0, 255),
+                clamp((int)(200 * intensity), 0, 255),
+                clamp((int)(40 * intensity), 0, 255)
+            ));
+
+            int glowRadius = (int)(100 + intensity * 100);
+            graphics.fillOval(
+                (int)glow.x - glowRadius,
+                (int)glow.y - glowRadius,
+                glowRadius * 2,
+                glowRadius * 2
+            );
+        }
     }
 
     @Override
     public void stop() {
         hexagons.clear();
+        backgroundGlows.clear();
     }
 
     private FloatingHexagon createHexagon() {
@@ -205,6 +308,27 @@ public class FloatingHexagons_Copilot extends VisualizationManager.Visualizer {
             this.phaseStep = phaseStep;
             this.alphaScale = alphaScale;
             this.phase = RANDOM.nextFloat() * (float)(Math.PI * 2.0);
+        }
+    }
+
+    private static final class BackgroundGlow {
+        private float x;
+        private float y;
+        private float speed;
+        private float phase;
+
+        private BackgroundGlow(float x, float y, float speed) {
+            this.x = x;
+            this.y = y;
+            this.speed = speed;
+            this.phase = RANDOM.nextFloat() * (float)(Math.PI * 2.0);
+        }
+
+        private void update() {
+            phase += speed;
+            if (phase > 6.28f) {
+                phase -= 6.28f;
+            }
         }
     }
 }
