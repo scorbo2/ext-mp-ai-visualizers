@@ -18,6 +18,8 @@ public class AiVisualizerExtension extends MusicPlayerExtension {
     private final AppExtensionInfo extInfo;
 
     private final FloatingHexagons_Copilot floatingHexagonsVisualizer_Copilot;
+    private final FloatingHexagons_Qwen36_35B_A3B floatingHexagonsQwen3635BA3B;
+    private final FloatingHexagons_Qwen36_27B_dense floatingHexagonsQwen3627Bdense;
 
     public AiVisualizerExtension() {
         extInfo = AppExtensionInfo.fromExtensionJar(getClass(), "/extInfo.json");
@@ -26,6 +28,8 @@ public class AiVisualizerExtension extends MusicPlayerExtension {
         }
 
         floatingHexagonsVisualizer_Copilot = new FloatingHexagons_Copilot();
+        floatingHexagonsQwen3635BA3B = new FloatingHexagons_Qwen36_35B_A3B();
+        floatingHexagonsQwen3627Bdense = new FloatingHexagons_Qwen36_27B_dense();
     }
 
     @Override
@@ -41,6 +45,8 @@ public class AiVisualizerExtension extends MusicPlayerExtension {
     protected List<AbstractProperty> createConfigProperties() {
         List<AbstractProperty> list = new ArrayList<>();
         list.addAll(floatingHexagonsVisualizer_Copilot.getProperties());
+        list.addAll(floatingHexagonsQwen3635BA3B.getProperties());
+        list.addAll(floatingHexagonsQwen3627Bdense.getProperties());
         return list;
     }
 
@@ -78,6 +84,10 @@ public class AiVisualizerExtension extends MusicPlayerExtension {
      */
     @Override
     public List<VisualizationManager.Visualizer> getCustomVisualizers() {
-        return List.of(floatingHexagonsVisualizer_Copilot);
+        return List.of(
+            floatingHexagonsVisualizer_Copilot,
+            floatingHexagonsQwen3635BA3B,
+            floatingHexagonsQwen3627Bdense
+        );
     }
 }

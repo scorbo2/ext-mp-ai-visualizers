@@ -28,13 +28,13 @@ import java.util.Random;
  */
 public class FloatingHexagons_Copilot extends VisualizationManager.Visualizer {
 
-    public static final String NAME = "Floating hexagons (copilot)";
-    private static final String colorPropName = "Visualizers.Floating Hexagons.hexagonColor";
-    private static final String countPropName = "Visualizers.Floating Hexagons.count";
-    private static final String minSizePropName = "Visualizers.Floating Hexagons.minSize";
-    private static final String maxSizePropName = "Visualizers.Floating Hexagons.maxSize";
-    private static final String speedPropName = "Visualizers.Floating Hexagons.speed";
-    private static final String opacityPropName = "Visualizers.Floating Hexagons.opacity";
+    public static final String NAME = "Floating hexagons (copilot/sonnet)";
+    private static final String colorPropName = "Visualizers.Floating Hexagons (copilot).hexagonColor";
+    private static final String countPropName = "Visualizers.Floating Hexagons (copilot).count";
+    private static final String minSizePropName = "Visualizers.Floating Hexagons (copilot).minSize";
+    private static final String maxSizePropName = "Visualizers.Floating Hexagons (copilot).maxSize";
+    private static final String speedPropName = "Visualizers.Floating Hexagons (copilot).speed";
+    private static final String opacityPropName = "Visualizers.Floating Hexagons (copilot).opacity";
 
     private static final Random RANDOM = new Random();
 

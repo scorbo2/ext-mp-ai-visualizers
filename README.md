@@ -20,12 +20,21 @@ can be adjusted.
 
 ## The results
 
-### GitHub Copilot
+- GitHub Copilot (Sonnet 4.6) - baseline pass, just to give us a reference implementation. Reasonably good, but a little
+  boring.
+- Qwen 3.6 35B A3B - a decent but visually uninteresting implementation.
+- Qwen 3.7 27B dense - surprisingly good! The hexagons slowly rotate as they move, and they have a nice look to them.
+- Gemma4 12B dense - was unable to complete its implementation.
+- Gemma4 31B dense - ran extremely slowly and took down the server (out of memory most likely).
+- Gemma4 26B A4B - was unable to complete its implementation.
 
-This was a "baseline" pass using Sonnet 4.6 just to see what a frontier model could do.
-The result is okay, but surprisingly a little boring.
+The Gemma4 results are particularly disappointing, but probably hardware-related. We're running with a pretty
+good GPU in a really old machine.
 
-## Running locally
+Update: after filming the video, I asked the GrizzledSeniorDev code review agent to take a look at the results
+and rank them. The results were a bit surprising: [ResultsComparison.md](ResultsComparison.md)
+
+## Running the results locally
 
 You'll need the [MusicPlayer](https://github.com/scorbo2/musicplayer/) application installed to run
 these visualizers locally. You'll also need Maven and Java 25+ to build this project:
@@ -44,6 +53,9 @@ cp target/ext-mp-ai-visualizers*.jar ~/.MusicPlayer/extensions/
 Now restart MusicPlayer if it was running, and you should see the new visualizers available
 in the "Visualization" tab of the application properties dialog. Select any of them, hit "OK",
 and then select the full screen button (or hit "v") to enter full-screen mode.
+
+TODO add screenshots! A picture is worth a thousand words.
+TODO also add a note about the config properties that each LLM added, because they're all different.
 
 ## License
 
