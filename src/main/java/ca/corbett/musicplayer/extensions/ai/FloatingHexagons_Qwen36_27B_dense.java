@@ -80,7 +80,7 @@ public class FloatingHexagons_Qwen36_27B_dense extends VisualizationManager.Visu
 
     public List<AbstractProperty> getProperties() {
         List<AbstractProperty> props = new ArrayList<>();
-        props.add(LabelProperty.createLabel("Visualizers.Floating Hexagons.label",
+        props.add(LabelProperty.createLabel("Visualizers.Floating Hexagons (Qwen 27B).label",
                                             "<html>The " + NAME + " visualizer renders a swarm of semi-transparent<br>" +
                                                 "hexagons that drift gently across the screen with a breeze-like<br>" +
                                                 "motion. Each hexagon uses radial gradients and layered glow<br>" +

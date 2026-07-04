@@ -18,12 +18,12 @@ Optionally, you can expose configuration options to the user so the movement or 
 can be adjusted.
 ```
 
-## The results
+## The results in brief
 
 - GitHub Copilot (Sonnet 4.6) - baseline pass, just to give us a reference implementation. Reasonably good, but a little
   boring.
 - Qwen 3.6 35B A3B - a decent but visually uninteresting implementation.
-- Qwen 3.7 27B dense - surprisingly good! The hexagons slowly rotate as they move, and they have a nice look to them.
+- Qwen 3.6 27B dense - surprisingly good! The hexagons slowly rotate as they move, and they have a nice look to them.
 - Gemma4 12B dense - was unable to complete its implementation.
 - Gemma4 31B dense - ran extremely slowly and took down the server (out of memory most likely).
 - Gemma4 26B A4B - was unable to complete its implementation.
@@ -36,8 +36,20 @@ and rank them. The results were a bit surprising: [ResultsComparison.md](Results
 
 ## Running the results locally
 
-You'll need the [MusicPlayer](https://github.com/scorbo2/musicplayer/) application installed to run
-these visualizers locally. You'll also need Maven and Java 25+ to build this project:
+### Option 1: automatic install via ExtensionManager
+
+If you have [MusicPlayer](https://github.com/scorbo2/musicplayer/) 4.x installed, you can just visit the extension
+manager dialog, select the
+"Available" tab, and install the "AI visualizers" extension from there. The extension manager will download
+the extension jar and place it in your MusicPlayer extensions directory for you. You will be prompted to restart.
+This is the easiest option.
+
+### Option 2: build from source
+
+Requirements: Maven, Java 25
+
+You'll need to have already built and installed MusicPlayer 4.x into your local Maven repository.
+Once you have done that, you can just clone this repo, build the extension, and deploy it manually:
 
 ```bash
 git clone https://github.com/scorbo2/ext-mp-ai-visualizers.git
@@ -54,8 +66,61 @@ Now restart MusicPlayer if it was running, and you should see the new visualizer
 in the "Visualization" tab of the application properties dialog. Select any of them, hit "OK",
 and then select the full screen button (or hit "v") to enter full-screen mode.
 
-TODO add screenshots! A picture is worth a thousand words.
-TODO also add a note about the config properties that each LLM added, because they're all different.
+## The results in detail
+
+To select one of these visualizers after installing this extension, open the application properties
+dialog, select the "Visualization" tab, and then select one of the items from the "Visualizer" list shown below:
+
+![Visualizer selection](docs/visualizer_selection.png "Visualizer selection")
+
+### GitHub Copilot (Sonnet 4.6)
+
+Copilot's offering built the following configuration properties:
+
+![Copilot config](docs/settings_copilot.png "Copilot config")
+
+The results:
+
+<a href="docs/results_copilot.jpg">
+  <img src="docs/results_copilot.jpg" alt="Copilot visualizer" width="300" title="Copilot visualizer">
+</a>
+
+The hexagons are simple single-color polygons with varying transparency, which is a bit boring.
+But, they change direction as they move and have a slight intentional "wobble" to them. Also, the background
+features a subtle radial gradient which slowly moves, which is a nice touch.
+
+### Qwen 3.6 35B A3B
+
+Qwen's offering built the following configuration properties:
+
+![Qwen config](docs/settings_qwen36.png "Qwen config")
+
+The results:
+
+<a href="docs/results_qwen36.jpg">
+  <img src="docs/results_qwen36.jpg" alt="Qwen 3.6 visualizer" width="300" title="Qwen 3.6 visualizer">
+</a>
+
+This version offers the most configuration options, including multiple background types. However, after playing
+with it for a while, it seems the background effect is so subtle that it basically appears to be a solid color,
+which is very boring. There are color options for the hexagons, and they also come with a "glow" effect and
+a radial fill, which is kind of nice.
+
+### Qwen 3.6 27B dense
+
+Qwen's 3.6 offering built the following configuration properties:
+
+![Qwen config](docs/settings_qwen37.png "Qwen config")
+
+The results:
+
+<a href="docs/results_qwen37.jpg">
+  <img src="docs/results_qwen37.jpg" alt="Qwen 3.7 visualizer" width="300" title="Qwen 3.7 visualizer">
+</a>
+
+This is my personal favorite. These hexagons also have a radial fill and a "glow" effect, similar to
+Qwen 35B's offering, but these hexagons slowly rotate as they move. The background features a very subtle
+radial gradient that slowly moves, and gives the whole thing a really nice feel to it.
 
 ## License
 

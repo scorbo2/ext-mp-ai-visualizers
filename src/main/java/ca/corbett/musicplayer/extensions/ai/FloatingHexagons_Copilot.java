@@ -56,7 +56,7 @@ public class FloatingHexagons_Copilot extends VisualizationManager.Visualizer {
 
     public List<AbstractProperty> getProperties() {
         List<AbstractProperty> props = new ArrayList<>();
-        props.add(LabelProperty.createLabel("Visualizers.Floating Hexagons.label",
+        props.add(LabelProperty.createLabel("Visualizers.Floating Hexagons (copilot).label",
                                             "<html>The " + NAME + " visualizer shows translucent hexagons<br>" +
                                                 "floating slowly across the screen at different sizes.</html>"));
         props.add(new ColorProperty(colorPropName, "Hexagon color:", ColorSelectionType.SOLID)

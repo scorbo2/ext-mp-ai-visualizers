@@ -162,7 +162,7 @@ public class FloatingHexagons_Qwen36_35B_A3B extends VisualizationManager.Visual
 
     public List<AbstractProperty> getProperties() {
         List<AbstractProperty> props = new ArrayList<>();
-        props.add(LabelProperty.createLabel("Visualizers.Floating Hexagons.label",
+        props.add(LabelProperty.createLabel("Visualizers.Floating Hexagons (Qwen 36B).label",
                                             "<html>The " + NAME + " visualizer shows gently drifting hexagons<br>" +
                                                 "across a soft, shifting background. Each hexagon has a translucent<br>" +
                                                 "gradient fill with a subtle glow and faint wireframe outline.</html>"
