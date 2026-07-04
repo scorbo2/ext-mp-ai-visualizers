@@ -1,6 +1,7 @@
 {
   "name": "AI Visualizers",
   "author": "Written by AI!",
+  "projectUrl": "https://github.com/scorbo2/ext-mp-ai-visualizers",
   "version": "4.0.0",
   "targetAppName": "MusicPlayer",
   "targetAppVersion": "4.0",
